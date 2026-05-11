@@ -52,48 +52,57 @@
     </div>
   </div>
 
-  <audio autoplay loop>
+  <audio id="bgm" loop>
   <source src="lagu.mp3" type="audio/mpeg">
 </audio>
-  
-  <script>
-    const slides = document.getElementById("slides");
 
-    let current = 0;
+<script>
+  const slides = document.getElementById("slides");
+  const bgm = document.getElementById("bgm");
 
-    let startX = 0;
-    let endX = 0;
+  let current = 0;
 
-    function updateSlide(){
-      slides.style.transform = `translateX(-${current * 100}vw)`;
+  let startX = 0;
+  let endX = 0;
+
+  let musicStarted = false;
+
+  function updateSlide(){
+    slides.style.transform = `translateX(-${current * 100}vw)`;
+  }
+
+  document.addEventListener("touchstart", (e)=>{
+
+    // mulai musik saat pertama disentuh
+    if(!musicStarted){
+      bgm.play();
+      musicStarted = true;
     }
 
-    document.addEventListener("touchstart", (e)=>{
-      startX = e.touches[0].clientX;
-    });
+    startX = e.touches[0].clientX;
+  });
 
-    document.addEventListener("touchend", (e)=>{
-      endX = e.changedTouches[0].clientX;
+  document.addEventListener("touchend", (e)=>{
+    endX = e.changedTouches[0].clientX;
 
-      let diff = startX - endX;
+    let diff = startX - endX;
 
-      // swipe kiri
-      if(diff > 50){
-        if(current < 2){
-          current++;
-        }
+    // swipe kiri
+    if(diff > 50){
+      if(current < 2){
+        current++;
       }
+    }
 
-      // swipe kanan
-      if(diff < -50){
-        if(current > 0){
-          current--;
-        }
+    // swipe kanan
+    if(diff < -50){
+      if(current > 0){
+        current--;
       }
+    }
 
-      updateSlide();
-    });
-  </script>
-
+    updateSlide();
+  });
+</script>
 </body>
 </html>
