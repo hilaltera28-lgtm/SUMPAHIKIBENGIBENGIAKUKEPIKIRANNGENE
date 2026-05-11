@@ -33,8 +33,8 @@
 
     .slides {
   display: flex;
-  transition: transform 0.4s ease;
-  touch-action: pan-y;
+  transition: 0.3s;
+}
 }
     }
 
@@ -79,68 +79,31 @@
   </div>
 
   <script>
-  const slides = document.getElementById("slides");
-  const images = document.querySelectorAll(".slides img");
-  const dotsContainer = document.getElementById("dots");
+const slides = document.getElementById("slides");
+const images = document.querySelectorAll(".slides img");
 
-  let index = 0;
-  let startX = 0;
-  let isDown = false;
+let index = 0;
+let startX = 0;
 
-  // dots
-  images.forEach((_, i) => {
-    const dot = document.createElement("div");
-    dot.classList.add("dot");
+slides.addEventListener("touchstart", e => {
+  startX = e.touches[0].clientX;
+});
 
-    if(i === 0) dot.classList.add("active");
+slides.addEventListener("touchend", e => {
+  let endX = e.changedTouches[0].clientX;
+  let diff = startX - endX;
 
-    dotsContainer.appendChild(dot);
-  });
-
-  const dots = document.querySelectorAll(".dot");
-
-  function updateSlider() {
-    slides.style.transform = `translateX(-${index * 100}%)`;
-
-    dots.forEach(dot => dot.classList.remove("active"));
-    dots[index].classList.add("active");
+  if(diff > 50) {
+    index = (index + 1) % images.length;
   }
 
-  // START
-  slides.addEventListener("pointerdown", (e) => {
-    startX = e.clientX;
-    isDown = true;
-  });
+  else if(diff < -50) {
+    index = (index - 1 + images.length) % images.length;
+  }
 
-  // END
-  slides.addEventListener("pointerup", (e) => {
-    if(!isDown) return;
-
-    let endX = e.clientX;
-    let diff = startX - endX;
-
-    // kiri
-    if(diff > 50) {
-      index++;
-
-      if(index >= images.length) {
-        index = 0;
-      }
-    }
-
-    // kanan
-    else if(diff < -50) {
-      index--;
-
-      if(index < 0) {
-        index = images.length - 1;
-      }
-    }
-
-    updateSlider();
-
-    isDown = false;
-  });
+  slides.style.transform = `translateX(-${index * 100}%)`;
+});
 </script>
+
 </body>
 </html>
