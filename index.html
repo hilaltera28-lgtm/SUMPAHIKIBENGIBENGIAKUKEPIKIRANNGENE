@@ -137,17 +137,30 @@
   });
 
   function handleSwipe() {
-    let diff = startX - currentX;
+  let diff = startX - currentX;
 
-    if(diff > 50 && index < images.length - 1) {
-      index++;
-    }
-    else if(diff < -50 && index > 0) {
-      index--;
-    }
+  // Geser ke kiri
+  if(diff > 50) {
+    index++;
 
-    updateSlider();
+    // kalau sudah terakhir balik ke awal
+    if(index >= images.length) {
+      index = 0;
+    }
   }
+
+  // Geser ke kanan
+  else if(diff < -50) {
+    index--;
+
+    // kalau sebelum pertama balik ke akhir
+    if(index < 0) {
+      index = images.length - 1;
+    }
+  }
+
+  updateSlider();
+}
 </script>
 
 </body>
