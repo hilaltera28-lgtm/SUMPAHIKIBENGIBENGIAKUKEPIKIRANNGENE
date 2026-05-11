@@ -1,84 +1,57 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Swipe Gallery</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      background: #111;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
-      font-family: Arial, sans-serif;
-    }
-
-    .slider {
-      width: 100%;
-      max-width: 400px;
-      overflow: hidden;
-      border-radius: 20px;
-      position: relative;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .slides {
-  display: flex;
-  transition: 0.3s;
-}
-}
-    }
-
-    .slides img {
-  width: 100%;
-  flex-shrink: 0;
-  user-select: none;
-  -webkit-user-drag: none;
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-    .dots {
-      position: absolute;
-      bottom: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 8px;
-    }
+body{
+  background:black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
 
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.5);
-    }
+.slider{
+  width:300px;
+  overflow:hidden;
+  border-radius:20px;
+}
 
-    .dot.active {
-      background: white;
-    }
-  </style>
+.slides{
+  display:flex;
+  transition:transform 0.3s ease;
+}
+
+.slides img{
+  width:300px;
+  height:500px;
+  object-fit:cover;
+  flex-shrink:0;
+}
+</style>
 </head>
+
 <body>
 
-  <div class="slider">
-    <div class="slides" id="slides">
-      <img src="1.png" alt="">
-      <img src="2.png" alt="">
-      <img src="3.png" alt="">
-    </div>
+<div class="slider">
+  <div class="slides" id="slides">
 
-    <div class="dots" id="dots"></div>
+    <img src="foto1.jpg">
+    <img src="foto2.jpg">
+    <img src="foto3.jpg">
+
   </div>
+</div>
 
-  <script>
+<script>
 const slides = document.getElementById("slides");
 const images = document.querySelectorAll(".slides img");
 
@@ -90,18 +63,21 @@ slides.addEventListener("touchstart", e => {
 });
 
 slides.addEventListener("touchend", e => {
+
   let endX = e.changedTouches[0].clientX;
   let diff = startX - endX;
 
-  if(diff > 50) {
+  if(diff > 50){
     index = (index + 1) % images.length;
   }
 
-  else if(diff < -50) {
+  else if(diff < -50){
     index = (index - 1 + images.length) % images.length;
   }
 
-  slides.style.transform = `translateX(-${index * 100}%)`;
+  slides.style.transform =
+    `translateX(-${index * 300}px)`;
+
 });
 </script>
 
